@@ -1,0 +1,32 @@
+name: Render
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render Quarto Project
+        id: render-quarto
+        env:
+          ACTIONS_STEP_DEBUG: true
+        shell: bash
+        run: |
+          echo "::debug:: $(getconf ARG_MAX)" # debug
+          export QUARTO_DENO_V8_OPTIONS=--stack-trace-limit=100 # debug
+          export QUARTO_PRINT_STACK=true # debug
+          export QUARTO_LOG_LEVEL=DEBUG # debug
+          ulimit -Sn $(ulimit -Hn) # debug
+          echo "::debug::Increased stack size to $(ulimit -s)" # debug
+          quarto render
