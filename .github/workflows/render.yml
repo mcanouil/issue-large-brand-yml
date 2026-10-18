@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
@@ -27,6 +27,6 @@ jobs:
           export QUARTO_DENO_V8_OPTIONS=--stack-trace-limit=100 # debug
           export QUARTO_PRINT_STACK=true # debug
           export QUARTO_LOG_LEVEL=DEBUG # debug
-          ulimit -Sn $(ulimit -Hn) # debug
+          ulimit -Sn "$(ulimit -Hn)" # debug
           echo "::debug::Increased stack size to $(ulimit -s)" # debug
           quarto render
